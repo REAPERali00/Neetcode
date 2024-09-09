@@ -80,5 +80,21 @@ def twoSum(self, nums: List[int], target: int) -> List[int]:
             if num in adds:
                 return [adds[num], i]
             adds[target - num] = i
+```
 
+### Anagram Groups
+
+P: Given an array of strings strs, group all anagrams together into sublists. You may return the output in any order.
+
+An anagram is a string that contains the exact same characters as another string, but the order of the characters can be different.
+
+S: we start by creating a default dict, a dictinary that its keys point to a list. we will go through each string, and sort them (the join is to change the results of sort from list to string) to get the anagram value for all strings. if its not seen before, appending to dict will create a new list. if it is seen before, then it will add it to the key(which all anagrams sorted will be the same) list. that is simply it!
+
+```python
+def groupAnagrams(self, strs: List[str]) -> List[List[str]]:
+        anags = defaultdict(list)
+        for s in strs:
+            key = "".join(sorted(s))
+            anags[key].append(s)
+        return list(anags.values())
 ```

@@ -1,5 +1,5 @@
 from typing import List
-from collections import Counter
+from collections import Counter, defaultdict
 
 
 class Solution:
@@ -23,6 +23,13 @@ class Solution:
             if num in adds:
                 return [adds[num], i]
             adds[target - num] = i
+
+    def groupAnagrams(self, strs: List[str]) -> List[List[str]]:
+        anags = defaultdict(list)
+        for s in strs:
+            key = "".join(sorted(s))
+            anags[key].append(s)
+        return list(anags.values())
 
 
 sol = Solution()
