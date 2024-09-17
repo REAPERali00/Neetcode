@@ -23,6 +23,7 @@ class Solution:
             if num in adds:
                 return [adds[num], i]
             adds[target - num] = i
+        return []
 
     def groupAnagrams(self, strs: List[str]) -> List[List[str]]:
         anags = defaultdict(list)
@@ -31,6 +32,9 @@ class Solution:
             anags[key].append(s)
         return list(anags.values())
 
+    def topKFrequent(self, nums: List[int], k: int) -> List[int]:
+        return [x for x, count in Counter(nums).most_common(k)]
+
 
 sol = Solution()
-print(sol.isAnagram("racecar", "carrace"))
+print(sol.topKFrequent([1, 2, 2, 3, 3, 3], 2))

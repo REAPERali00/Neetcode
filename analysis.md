@@ -98,3 +98,41 @@ def groupAnagrams(self, strs: List[str]) -> List[List[str]]:
             anags[key].append(s)
         return list(anags.values())
 ```
+
+### [Top K Elements in List](https://neetcode.io/problems/top-k-elements-in-list)
+
+Problem: Given an integer array nums and an integer k, return the k most frequent elements within the array.
+
+The test cases are generated such that the answer is always unique.
+
+You may return the output in any order.
+
+Solution: we start by counting the frequency of numbers in the array, and then sorting them to find the last k elements that are repeated. Fortunately, we have an easy way to do this in python using Counters. Counter not only gives us the count for each number, but it also has a function called most-common which would return the n most repeated numbers, in (num, count) format
+
+```python
+def topKFrequent(self, nums: List[int], k: int) -> List[int]:
+        return [x for x, count in Counter(nums).most_common(k)]
+```
+
+or we can use dictionary:
+
+```python
+
+from typing import List
+
+def topKFrequent(nums: List[int], k: int) -> List[int]:
+    # Step 1: Create a frequency dictionary
+    freq = {}
+    for num in nums:
+        if num in freq:
+            freq[num] += 1
+        else:
+            freq[num] = 1
+
+    # Step 2: Sort the dictionary by values in descending order
+    sorted_freq = sorted(freq.items(), key=lambda x: x[1], reverse=True)
+
+    # Step 3: Extract the top k elements (keys only)
+    return [num for num, count in sorted_freq[:k]]
+
+```
