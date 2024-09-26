@@ -136,3 +136,25 @@ def topKFrequent(nums: List[int], k: int) -> List[int]:
     return [num for num, count in sorted_freq[:k]]
 
 ```
+
+### [String Encode and Decode](https://neetcode.io/problems/string-encode-and-decode)
+
+Problem: Design an algorithm to encode a list of strings to a single string. The encoded string is then decoded back to the original list of strings.
+Please implement encode and decode
+
+Solution: we first encode the string by adding the length of the string followed by a special character, : for example, and when decoding we will look for this special character and mark its location and grab the number representing its length. This way, we can find the exact length and location of the string and add it to the list!
+
+```python
+  def encode(self, strs: List[str]) -> str:
+      return "".join(f"{len(s)}:{s}" for s in strs)
+
+  def decode(self, s: str) -> List[str]:
+      i = 0
+      result = []
+      while i < len(s):
+          j = s.find(":", i)
+          strLen = int(s[i:j])
+          result.append(s[j + 1 : j + 1 + strLen])
+          i = j + 1 + strLen
+      return result
+```

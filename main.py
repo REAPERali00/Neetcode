@@ -35,6 +35,19 @@ class Solution:
     def topKFrequent(self, nums: List[int], k: int) -> List[int]:
         return [x for x, count in Counter(nums).most_common(k)]
 
+    def encode(self, strs: List[str]) -> str:
+        return "".join(f"{len(s)}:{s}" for s in strs)
+
+    def decode(self, s: str) -> List[str]:
+        i = 0
+        result = []
+        while i < len(s):
+            j = s.find(":", i)
+            strLen = int(s[i:j])
+            result.append(s[j + 1 : j + 1 + strLen])
+            i = j + 1 + strLen
+        return result
+
 
 sol = Solution()
-print(sol.topKFrequent([1, 2, 2, 3, 3, 3], 2))
+print(sol.decode(sol.encode([])))
