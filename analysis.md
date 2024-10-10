@@ -158,3 +158,37 @@ Solution: we first encode the string by adding the length of the string followed
           i = j + 1 + strLen
       return result
 ```
+
+### [Products of array discluding self](https://neetcode.io/problems/products-of-array-discluding-self)
+
+Problem:
+
+Given an integer array nums, return an array output where output[i] is the product of all the elements of nums except nums[i].
+
+Each product is guaranteed to fit in a 32-bit integer.
+
+Follow-up: Could you solve it in O(n)O(n) time without using the division operation?
+
+Solution:
+
+We can solve this by splitting the array into two parts: the part before the number and the part after the number (_ie, the prefix and suffix_).
+
+As we are going through the array we first do the multiplication of the suffix, adding the products before adding the product of the number, and then do the same for the suffix!
+
+```python
+  def productExceptSelf(self, nums: List[int]) -> List[int]:
+        n = len(nums)
+        output = [1] * n
+        prefix = 1
+        suffix = 1
+
+        for i in range(n):
+            output[i] *= prefix
+            prefix *= nums[i]
+
+        for i in range(n - 1, -1, -1):
+            output[i] *= suffix
+            suffix *= nums[i]
+
+        return output
+```
