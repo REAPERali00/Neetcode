@@ -192,3 +192,85 @@ As we are going through the array we first do the multiplication of the suffix, 
 
         return output
 ```
+
+### [Valid Sudoku](https://neetcode.io/problems/valid-sudoku)
+
+Problem:
+
+You are given a a 9 x 9 Sudoku board board. A Sudoku board is valid if the following rules are followed:
+
+    Each row must contain the digits 1-9 without duplicates.
+    Each column must contain the digits 1-9 without duplicates.
+    Each of the nine 3 x 3 sub-boxes of the grid must contain the digits 1-9 without duplicates.
+
+Return true if the Sudoku board is valid, otherwise return false
+
+Note: A board does not need to be full or be solvable to be valid.
+
+Examples:
+
+```
+Input: board =
+[["1","2",".",".","3",".",".",".","."],
+ ["4",".",".","5",".",".",".",".","."],
+ [".","9","8",".",".",".",".",".","3"],
+ ["5",".",".",".","6",".",".",".","4"],
+ [".",".",".","8",".","3",".",".","5"],
+ ["7",".",".",".","2",".",".",".","6"],
+ [".",".",".",".",".",".","2",".","."],
+ [".",".",".","4","1","9",".",".","8"],
+ [".",".",".",".","8",".",".","7","9"]]
+
+Output: true
+```
+
+```
+Input: board =
+[["1","2",".",".","3",".",".",".","."],
+ ["4",".",".","5",".",".",".",".","."],
+ [".","9","1",".",".",".",".",".","3"],
+ ["5",".",".",".","6",".",".",".","4"],
+ [".",".",".","8",".","3",".",".","5"],
+ ["7",".",".",".","2",".",".",".","6"],
+ [".",".",".",".",".",".","2",".","."],
+ [".",".",".","4","1","9",".",".","8"],
+ [".",".",".",".","8",".",".","7","9"]]
+
+Output: false
+
+```
+
+Solution:
+we will create 3 hash sets, one containing the rows, the other col, and the last the 3x3 squares. the key is the squares, we will convert them to a set of 3 by integer division to determine were they will go. if the sets are unique, then no issues however if a value is already in a set then its not a valid Sudoku
+
+```python
+def isValidSudoku(self, board: List[List[str]]) -> bool:
+        cols = collections.defaultdict(set)
+        rows = collections.defaultdict(set)
+        squares = collections.defaultdict(set)  # key: (r //3, c // 3)
+
+        for r in range(9):
+            for c in range(9):
+                if board[r][c] == ".":
+                    continue
+                if (
+                    board[r][c] in rows[r]
+                    or board[r][c] in cols[c]
+                    or board[r][c] in squares[(r // 3, c // 3)]
+                ):
+                    return False
+                cols[c].add(board[r][c])
+                rows[r].add(board[r][c])
+                squares[(r // 3, c // 3)].add(board[r][c])
+        return True
+```
+
+### [longest consecutive sequence](https://neetcode.io/problems/longest-consecutive-sequence)
+
+Problem:
+
+Solution:
+
+```python
+
+```
