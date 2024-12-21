@@ -85,6 +85,14 @@ class Solution:
                 squares[(r // 3, c // 3)].add(board[r][c])
         return True
 
+    def reverseList(self, head: Optional[ListNode]) -> Optional[ListNode]:
+        current = head
+        while current:
+            next = head.next
+            head = current
+            current = next
+        return current
+
 
 # sol = Solution()
 # print(sol.productExceptSelf([1, 0, 4, 6]))

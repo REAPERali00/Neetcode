@@ -274,3 +274,19 @@ Solution:
 ```python
 
 ```
+
+## Linked List
+
+### [reverse link list](https://neetcode.io/problems/reverse-a-linked-list)
+
+Problem: Given the beginning of a singly linked list head, reverse the list, and return the new beginning of the list.
+
+Solution:
+
+```python
+
+```
+
+## Trees
+
+## Graphs
