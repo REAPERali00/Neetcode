@@ -1,6 +1,19 @@
 import collections
-from typing import List
+from typing import List, Optional
 from collections import Counter, defaultdict
+
+
+class ListNode:
+    def __init__(self, val=0, next=None):
+        self.val = val
+        self.next = next
+
+
+class TreeNode:
+    def __init__(self, val=0, right=None, left=None):
+        self.val = val
+        self.right = right
+        self.left = left
 
 
 class Solution:
@@ -86,13 +99,74 @@ class Solution:
         return True
 
     def reverseList(self, head: Optional[ListNode]) -> Optional[ListNode]:
-        current = head
+        prev, current = None, head
         while current:
-            next = head.next
-            head = current
+            next = current.next
+            current.next = prev
+            prev = current
             current = next
-        return current
+        return prev
+
+    def mergeTwoLists(
+        self, list1: Optional[ListNode], list2: Optional[ListNode]
+    ) -> Optional[ListNode]:
+        dumby = node = ListNode()
+
+        while list1 and list2:
+            if list1.val < list2.val:
+                node.next = list1
+                list1 = list1.next
+            else:
+                node.next = list2
+                list2 = list2.next
+            node = node.next
+
+        node.next = list1 or list2
+
+        return dumby.next
+
+    def reorderList(self, head: Optional[ListNode]) -> None:
+        if not head:
+            return None
+
+        # Find the middle point
+        slow, fast = head, head.next
+        while fast and fast.next:  # is fast necessary?
+            slow = slow.next
+            fast = fast.next.next
+        second = slow.next
+        prev = slow.next = None
+
+        # reverse the second half
+        while second:
+            tmp = second.next
+            second.next = prev
+            prev = second
+            second = tmp
+        first, second = head, prev
+
+        # go by on from left, one from right and insert the new nodes
+        while second:
+            tmp1, tmp2 = first.next, second.next
+            first.next = second
+            second.next = tmp1
+            first, second = tmp1, tmp2
+
+    def invertTree(self, root: Optional[TreeNode]) -> Optional[TreeNode]:
+        if not root:
+            return None
+        tmp = root.left
+        root.left = root.right
+        root.right = tmp
+        self.invertTree(root.left)
+        self.invertTree(root.right)
+        return root
+
+    def maxDepth(self, root: Optional[TreeNode]) -> int:
+        if not root:
+            return 0
+        return 1 + max(self.maxDepth(root.left), self.maxDepth(root.right))
 
 
-# sol = Solution()
+sol = Solution()
 # print(sol.productExceptSelf([1, 0, 4, 6]))
