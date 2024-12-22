@@ -167,6 +167,41 @@ class Solution:
             return 0
         return 1 + max(self.maxDepth(root.left), self.maxDepth(root.right))
 
+    def diameterOfBinaryTree(self, root: Optional[TreeNode]) -> int:
+        self.diameter = 0  # made the variable global for functino access
+
+        # Gives the height of the node
+        def dfs(curr):
+            if not curr:
+                return 0
+            left = dfs(curr.left)
+            right = dfs(curr.right)
+            self.diameter = max(
+                self.diameter, left + right
+            )  # record the largest height
+            return 1 + max(
+                left, right
+            )  # the height of the parent node is the larger between left and right
+
+        dfs(root)
+        return self.diameter
+
+    def isBalanced(self, root: Optional[TreeNode]) -> bool:
+
+        def dfs(curr):
+            if not curr:
+                return [
+                    True,
+                    0,
+                ]  # create a list as a return type, store both the current state and height
+            left, right = dfs(curr.left), dfs(curr.right)
+            balance = (
+                left[0] and right[0] and abs(left[1] - right[1]) <= 1
+            )  # check if left and right were prev balanced, and check for new balance
+            return [balance, 1 + max(left[1], right[1])]
+
+        return dfs(root)[0]
+
 
 sol = Solution()
 # print(sol.productExceptSelf([1, 0, 4, 6]))
