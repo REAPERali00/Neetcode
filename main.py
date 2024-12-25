@@ -202,6 +202,22 @@ class Solution:
 
         return dfs(root)[0]
 
+    def isSameTree(self, p: Optional[TreeNode], q: Optional[TreeNode]) -> bool:
+        if not q or not p : 
+            return not( q or p)
+        if p.val != q.val: return False 
+        return self.isSameTree(p.left, q.left) and self.isSameTree(p.right, q.right)
+
+    def isSubtree(self, root: Optional[TreeNode], subRoot: Optional[TreeNode]) -> bool:
+        if not root and subRoot: 
+            return False 
+        return self.isSubtree(root.left, subRoot.left)
+
+        return False
+
+
+
+
 
 sol = Solution()
 # print(sol.productExceptSelf([1, 0, 4, 6]))
