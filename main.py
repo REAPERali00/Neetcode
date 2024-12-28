@@ -1,6 +1,6 @@
 import collections
 from typing import List, Optional
-from collections import Counter, defaultdict
+from collections import Counter, defaultdict, deque
 
 
 class ListNode:
@@ -203,20 +203,87 @@ class Solution:
         return dfs(root)[0]
 
     def isSameTree(self, p: Optional[TreeNode], q: Optional[TreeNode]) -> bool:
-        if not q or not p : 
-            return not( q or p)
-        if p.val != q.val: return False 
+        if not q or not p:
+            return not (q or p)
+        if p.val != q.val:
+            return False
         return self.isSameTree(p.left, q.left) and self.isSameTree(p.right, q.right)
 
     def isSubtree(self, root: Optional[TreeNode], subRoot: Optional[TreeNode]) -> bool:
-        if not root and subRoot: 
-            return False 
-        return self.isSubtree(root.left, subRoot.left)
 
-        return False
+        def is_same(main, sub):
+            if not main or not sub:
+                return not (main or sub)
+            if main.val != sub.val:
+                return False
+            return is_same(main.left, sub.left) and is_same(main.right, sub.right)
 
+        if is_same(root, subRoot):
+            return True
+        if not root:
+            return False
+        return self.isSubtree(root.left, subRoot) or self.isSubtree(root.right, subRoot)
 
+    def lowestCommonAncestor(
+        self, root: TreeNode, p: TreeNode, q: TreeNode
+    ) -> TreeNode:
+        # the moment a split occurs, the node becomes a common Ancestor
+        if not root or not p or not q:
+            return None
+        if max(q.val, p.val) < root.val:
+            return self.lowestCommonAncestor(root.left, p, q)
 
+        elif min(q.val, p.val) > root.val:
+            return self.lowestCommonAncestor(root.right, p, q)
+        else:
+            return root
+
+    def levelOrder(self, root: Optional[TreeNode]) -> List[List[int]]:
+        res = []
+        que = deque([root])
+        while que:
+            qlen = len(que)
+            level = []
+            for _ in range(qlen):
+                node = que.popleft()
+                if node:
+                    level.append(node.val)
+                    que.append(node.left)
+                    que.append(node.right)
+            if level:
+                res.append(level)
+        return res
+
+    def rightSideView(self, root: Optional[TreeNode]) -> List[int]:
+        res = []
+        if not root:
+            return res
+        que = deque([root])
+        while que:
+            right = None
+            qlen = len(que)
+            for _ in range(qlen):
+                node = que.popleft()
+                if node:
+                    right = node
+                    que.append(node.left)
+                    que.append(node.right)
+            if right:
+                res.append(right.val)
+        return res
+
+    def goodNodes(self, root: TreeNode) -> int:
+        def dfs(curr, max):
+            if not curr:
+                return 0
+
+            return (
+                (1 if curr.val >= max else 0)
+                + dfs(curr.left, max(max, curr.val))
+                + dfs(curr.right, max(max, curr.val))
+            )
+
+        return dfs(root, root.val)
 
 
 sol = Solution()
