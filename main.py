@@ -359,6 +359,5 @@ class Solution:
             slow2 = nums[slow2]
             if slow == slow2: return slow  #once the two meet, we have found the solution 
 
-
 sol = Solution()
 # print(sol.productExceptSelf([1, 0, 4, 6]))
