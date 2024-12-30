@@ -285,6 +285,80 @@ class Solution:
 
         return dfs(root, root.val)
 
+    def hasCycle(self, head: Optional[ListNode]) -> bool:
+        if not head: 
+            return False
+        slow, fast = head, head
+        while fast and fast.next: 
+            slow = slow.next 
+            fast = fast.next.next
+            if slow == fast:
+                return True 
+        return False 
+         
+    def removeNthFromEnd(self, head: Optional[ListNode], n: int) -> Optional[ListNode]:
+        dumby = ListNode()
+        dumby.next = head
+        found, ahead = dumby, dumby 
+        for _ in range(n+1): 
+            ahead = ahead.next
+        while ahead: 
+            found = found.next 
+            ahead = ahead.next 
+        found.next = found.next.next 
+        return dumby.next
+
+    # TODO: This one is Brilliant 
+    def copyRandomList(self, head: 'Optional[Node]') -> 'Optional[Node]':
+        originToCopy = {None:None}
+        curr = head
+        # map original to copy using hashmap 
+        while curr: 
+            # create a copy, but not assign links 
+            copy = Node(curr.val)
+            originToCopy[curr] = copy
+            curr = curr.next 
+
+        # because random pointer is in the original keys, we can use it to find the copies address! 
+        curr = head
+        while curr: 
+            copy = originToCopy[curr]
+            copy.next = originToCopy[curr.next]
+            copy.random = originToCopy[curr.random]
+            curr = curr.next
+        return originToCopy[head]
+
+    def addTwoNumbers(self, l1: Optional[ListNode], l2: Optional[ListNode]) -> Optional[ListNode]:
+        dumby = copy = ListNode()
+        carry = 0
+        while l1 or l2: 
+            copy.next = ListNode()
+            copy = copy.next
+            l = l1.val if l1 else 0 
+            r = l2.val if l2 else 0 
+            copy.val, carry = ( (l + r+ carry)%10  , (l + r+ carry)//10 )
+
+            
+            l1 = l1.next if l1 else None
+            l2 = l2.next if l2 else None
+        if carry: 
+            copy.next = ListNode(carry)
+            copy = copy.next
+        return dumby.next
+
+    # Warning : this is o(1) space, so we need to use Linked list + Floyd's algorithm 
+    def findDuplicate(self, nums: List[int]) -> int:
+        slow, fast = 0, 0 # we can always start at zero, since its not going to be part of the loop (nums start at 1)
+        while True: 
+            slow = nums[slow] # Elements are indexes of the array 
+            fast = nums[nums[fast]] 
+            if fast == slow: break  #Find the point where the fast and slow pointers meet
+        slow2 = 0  # start another slow pointer
+        while True: 
+            slow = nums[slow]
+            slow2 = nums[slow2]
+            if slow == slow2: return slow  #once the two meet, we have found the solution 
+
 
 sol = Solution()
 # print(sol.productExceptSelf([1, 0, 4, 6]))
