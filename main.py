@@ -1,6 +1,8 @@
 import collections
 from typing import List, Optional
 from collections import Counter, defaultdict, deque
+import heapq
+import math
 
 
 class ListNode:
@@ -358,6 +360,37 @@ class Solution:
             slow = nums[slow]
             slow2 = nums[slow2]
             if slow == slow2: return slow  #once the two meet, we have found the solution 
+
+    def lastStoneWeight(self, stones: List[int]) -> int:
+        stones = [-x for x in stones]
+        heapq.heapify(stones)
+        while len(stones) > 1: 
+            y = heapq.heappop(stones) * -1
+            x = heapq.heappop(stones) * -1
+            if x < y : 
+                heapq.heappush(stones, x-y)
+
+            elif x > y : 
+                heapq.heappush(stones, y-x)
+        return -stones[0] if len(stones) else 0 
+
+    def kClosest(self, points: List[List[int]], k: int) -> List[List[int]]:
+        def get_dist(point: List[int]): 
+            x = point[0]
+            y = point[1]
+            return math.sqrt((x) ** 2 + (y) **2)
+        distances = [(-get_dist(point), point) for point in points]
+        heapq.heapify(distances)
+        while len(distances) > k: 
+            heapq.heappop(distances)
+        return [y for _,y in distances]
+
+    def findKthLargest(self, nums: List[int], k: int) -> int:
+        heapq.heapify(nums)
+        while len(nums) > k: 
+            heapq.heappop(nums)
+        return nums[0]
+
 
 sol = Solution()
 # print(sol.productExceptSelf([1, 0, 4, 6]))
