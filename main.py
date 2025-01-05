@@ -390,6 +390,7 @@ class Solution:
         while len(nums) > k: 
             heapq.heappop(nums)
         return nums[0]
+
     # TODO: This is a great example of que, map and heap
     def leastInterval(self, tasks: List[str], n: int) -> int:
         count = Counter(tasks)
@@ -411,11 +412,77 @@ class Solution:
                 heapq.heappush(maxHeap, q.popleft()[0])
         return time 
 
-            
+    # TODO a good graph intro
+    def numIslands(self, grid: List[List[str]]) -> int:
+        # find a 1, if found add it to the visited. then go through all nodes that are one, add to que till que empty.
+        if not grid: 
+            return 0 
+        islands = 0
+        rows, cols = len(grid), len(grid[0])
+        visited = set() 
+
+        # go through each 1 and add its surrounding ones till none is left
+        def bfs(r,c): 
+            q = deque()
+            visited.add((r,c))
+            q.append((r,c))
+            directions = [[1,0], [-1,0], [0,1], [0,-1]]
+            while q: 
+                row, col = q.popleft()
+                for dr, dc in directions: 
+                    r,c = row + dr, col + dc
+                    if (r in range(rows) and 
+                        c in range(cols) and
+                        grid[r][c] == "1" and
+                        (r, c) not in visited):
+                        q.append((r,c))
+                        visited.add((r,c))
+
+        for r in range(rows): 
+            for c in range(cols): 
+                if grid[r][c] == "1" and (r,c) not in visited: 
+                    bfs(r,c)
+                    islands += 1
+
+        return islands
+                    
+
+    def maxAreaOfIsland(self, grid: List[List[int]]) -> int:
+        if not grid: 
+            return 0 
+        rows , cols = len(grid), len(grid[0])
+        visited = set()
+        max_area = 0 
+
+        def bfs (r, c): 
+            q = deque()
+            visited.add((r,c))
+            q.append((r,c))
+            dirs = [[1,0], [-1,0],[0,1],[0,-1]]
+            count = 1
+            while q: 
+                row, col = q.popleft()
+                for dr, dc in dirs: 
+                    r, c = row + dr, col + dc
+                    if (r in range(rows) and 
+                        c in range(cols) and 
+                        grid[r][c] == 1 and 
+                            (r,c) not in visited): 
+                        q.append((r,c))
+                        visited.add((r,c))
+                        count+=1
+            return count
+
+        for r in range(rows): 
+            for c in range(cols): 
+                if grid[r][c] == 1 and (r,c) not in visited: 
+                    area = bfs(r,c) 
+                    max_area = max(area, max_area) 
 
 
-
-
+        return max_area
+    
+    
 
 sol = Solution()
 # print(sol.productExceptSelf([1, 0, 4, 6]))
