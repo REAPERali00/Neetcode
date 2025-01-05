@@ -483,6 +483,62 @@ class Solution:
         return max_area
     
     
+    def cloneGraph(self, node: Optional['Node']) -> Optional['Node']:
+        originToCopy = {}
+
+        def dfs(node): 
+            if node in originToCopy: 
+                return originToCopy[node]
+            cp = Node(node.val)
+            originToCopy[node] = cp
+            for n in node.neighbors: 
+                cp.neighbors.append(dfs(n))
+            return cp
+        return dfs(node) if node else None
+
+    def islandsAndTreasure(self, grid: List[List[int]]) -> None:
+        if not grid: 
+            return None
+
+        rows, cols = len(grid), len(grid[0])
+        visited = set()
+        q = deque()
+
+        # add all treasures to the que 
+        for r in range(rows): 
+            for c in range(cols): 
+                if grid[r][c] == 0: 
+                    q.append((r,c))
+                    visited.add((r,c))
+
+        dist = 0 
+        while q: 
+            for _ in range(len(q)): 
+                row,col = q.popleft()
+                grid[row][col] = dist
+
+                for dr, dc in [[1,0],[-1,0],[0,1],[0,-1],]: 
+                    nr, nc = row + dr, col + dc
+                    if (nr not in range(rows) or 
+                        nc not in range(cols) or 
+                        grid[nr][nc] == -1 or 
+                            (nr, nc) in visited): continue 
+                    q.append((nr,nc))
+                    visited.add((nr,nc))
+
+            dist +=1
+
+
+
+        
+
+
+
+
+
+
+
+
 
 sol = Solution()
 # print(sol.productExceptSelf([1, 0, 4, 6]))
