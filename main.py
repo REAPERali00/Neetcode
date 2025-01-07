@@ -528,16 +528,14 @@ class Solution:
 
             dist +=1
 
-
-
-        
-
-
-
-
-
-
-
+    # TODO lol this is Fibonacci 
+    def climbStairs(self, n: int) -> int:
+        one, two = 1,1 
+        for i in range(n-1): 
+            tmp = two 
+            two = one + two 
+            one = tmp
+        return two
 
 
 sol = Solution()
