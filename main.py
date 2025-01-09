@@ -536,6 +536,15 @@ class Solution:
             two = one + two 
             one = tmp
         return two
+    
+    def rob(self, nums: List[int]) -> int:
+        # we are going to store max ammount in each step 
+        rob1, rob2 = 0,0
+        for n in nums: 
+            temp = rob2
+            rob2  = max(rob1+n, rob2) # see what is the max ammount we can rob at that index
+            rob1 = temp #move the prev
+        return rob2
 
 
 sol = Solution()
