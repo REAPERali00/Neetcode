@@ -547,5 +547,15 @@ class Solution:
         return rob2
 
 
+    def minCostClimbingStairs(self, cost: List[int]) -> int:
+        prv= nxt  = cost[0]
+        for i in range(len(cost)): 
+            tmp = nxt
+            nxt = min(nxt + cost[i], nxt + prv)
+            prv = tmp
+        return nxt
+
+
+
 sol = Solution()
 # print(sol.productExceptSelf([1, 0, 4, 6]))
