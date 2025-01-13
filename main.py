@@ -542,20 +542,38 @@ class Solution:
         rob1, rob2 = 0,0
         for n in nums: 
             temp = rob2
-            rob2  = max(rob1+n, rob2) # see what is the max ammount we can rob at that index
+            rob2  = max(rob1+n, rob2) # see what is the max ammount we can rob at that index, 
+            #which is compare which is bigger: current number or the addition of the surrounding numbers
             rob1 = temp #move the prev
         return rob2
 
-
     def minCostClimbingStairs(self, cost: List[int]) -> int:
-        prv= nxt  = cost[0]
-        for i in range(len(cost)): 
-            tmp = nxt
-            nxt = min(nxt + cost[i], nxt + prv)
-            prv = tmp
-        return nxt
+        for i in range(len(cost)-3, -1, -1) : 
+            cost[i] += min(cost[i+1], cost[i+2])
+        return min(cost[0],cost[1])
+
+    def rob2(self, nums: List[int]) -> int:
+        return max(nums[0], self.rob(nums[1:]), 
+                            self.rob(nums[:-1]))
+    
+    def longestPalindrome(self, s: str) -> str:
+        res= ""
+
+        for i in range(len(s)): 
+            # odd case, ex: aba
+            l = r = i
+            while l >= 0 and r < len(s) and s[r] == s[l]: 
+                res = s[l:r+1] if len(res) < r-l+1 else res
+                r +=1 
+                l -= 1
+        
+            # Even case, ex: abba
+            l , r = i, i+1
+            while l >= 0 and r < len(s) and s[r] == s[l]: 
+                res = s[l:r+1] if len(res) < r-l+1 else res
+                r +=1 
+                l -= 1
+        return res
 
 
-
-sol = Solution()
-# print(sol.productExceptSelf([1, 0, 4, 6]))
+                    
