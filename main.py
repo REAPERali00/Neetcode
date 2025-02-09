@@ -28,11 +28,13 @@ class Solution:
             seen.add(num)
         return False
 
+    # check letter count, both must be same 
     def isAnagram(self, s: str, t: str) -> bool:
         if len(s) != len(t):
             return False
         return Counter(s) == Counter(t)
 
+    # is there two numbers in this array, where x+y=target
     def twoSum(self, nums: List[int], target: int) -> List[int]:
         adds = {}
         for i, num in enumerate(nums):
@@ -41,6 +43,7 @@ class Solution:
             adds[target - num] = i
         return []
 
+    # group words that have the same letter count
     def groupAnagrams(self, strs: List[str]) -> List[List[str]]:
         anags = defaultdict(list)
         for s in strs:
@@ -48,9 +51,11 @@ class Solution:
             anags[key].append(s)
         return list(anags.values())
 
+    # return a  list of the top k most repeated numbers in the list  
     def topKFrequent(self, nums: List[int], k: int) -> List[int]:
         return [x for x, count in Counter(nums).most_common(k)]
-
+    
+    # Encode a list to a single string, and then decode it
     def encode(self, strs: List[str]) -> str:
         return "".join(f"{len(s)}:{s}" for s in strs)
 
@@ -64,6 +69,7 @@ class Solution:
             i = j + 1 + strLen
         return result
 
+    # create an array that is  composed of product of all elements but i 
     def productExceptSelf(self, nums: List[int]) -> List[int]:
         n = len(nums)
         output = [1] * n
@@ -80,6 +86,7 @@ class Solution:
 
         return output
 
+    # check if a matrix is a valid suodku, meaning no repeat in row, col, and 3x3
     def isValidSudoku(self, board: List[List[str]]) -> bool:
         cols = collections.defaultdict(set)
         rows = collections.defaultdict(set)
@@ -100,6 +107,7 @@ class Solution:
                 squares[(r // 3, c // 3)].add(board[r][c])
         return True
 
+    # reverse a linked list
     def reverseList(self, head: Optional[ListNode]) -> Optional[ListNode]:
         prev, current = None, head
         while current:
@@ -109,6 +117,7 @@ class Solution:
             current = next
         return prev
 
+    # Merge to sorted linked lists to a sorted linked list
     def mergeTwoLists(
         self, list1: Optional[ListNode], list2: Optional[ListNode]
     ) -> Optional[ListNode]:
@@ -127,6 +136,7 @@ class Solution:
 
         return dumby.next
 
+    # 
     def reorderList(self, head: Optional[ListNode]) -> None:
         if not head:
             return None
