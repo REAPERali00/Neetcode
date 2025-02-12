@@ -633,5 +633,10 @@ class Solution:
                 res = i+1
         return res
 
+    # is a string palindrom(ignoreing symbols), ex: "Was it a car or a cat I saw?" is true
+    def isPalindrome(self, s: str) -> bool:
+        letters = [l.lower() for l in s if l.isalnum()]
+        letters = "".join(letters)
+        return letters == letters[::-1]
 
 
