@@ -639,4 +639,54 @@ class Solution:
         letters = "".join(letters)
         return letters == letters[::-1]
 
+    # find sum of numbs == target, such that: i1 < i2, O(1) space, numbers is sorted increasing order, return [index1, index2] if i starts at 1 
+    def twoSumPointers(self, numbers: List[int], target: int) -> List[int]:
+        r, l = len(numbers) -1, 0 
+        while r > l: 
+            sum = numbers[r] + numbers[l]
+            if sum > target: 
+                r -=1 
+            elif sum < target: 
+                l +=1
+            else: 
+                return [l+1, r+1]
+        return []
+    
+    # return a list of 3 numbers that their sum would be 0 
+    def threeSum(self, nums: List[int]) -> List[List[int]]:
+        res = []
+        nums.sort() 
+
+        for i, n  in enumerate(nums):
+            if n > 0: break # if the first value is greater then 0, all values in array are positive and no solution
+            if i> 0 and nums[i-1] == n:  # we already did the search
+                continue
+            l,r = i+1, len(nums)-1
+            while l < r: 
+                threeSum = n + nums[l] + nums[r]
+                if threeSum > 0: 
+                    r-=1
+                elif threeSum < 0: 
+                    l+=1
+                else:
+                    res.append([n,nums[l], nums[r]])
+                    l, r = l+1, r-1
+                    while nums[l] == nums[l-1] and l < r: #to avoid duplicates, move l till new value is found
+                        l+=1
+        return res
+
+    # if each index represents height of a container, return max area 
+    def maxArea(self, heights: List[int]) -> int:
+        length = len(heights)
+        l,r = 0, length - 1
+        res = 0
+        while l < r: 
+            res = max(res, (r-l) * min(heights[r], heights[l]))
+            if heights[r] < heights[l]: 
+                r-=1 
+            else : 
+                l +=1
+        return res
+
+
 
