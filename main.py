@@ -136,14 +136,14 @@ class Solution:
 
         return dumby.next
 
-    # 
+    # reorder the list such that the items itereate one from left, one fron right: [0, n-1, 1, n-2, 2, n-3, ...]
     def reorderList(self, head: Optional[ListNode]) -> None:
         if not head:
             return None
 
         # Find the middle point
         slow, fast = head, head.next
-        while fast and fast.next:  # is fast necessary?
+        while fast and fast.next: 
             slow = slow.next
             fast = fast.next.next
         second = slow.next
@@ -164,6 +164,7 @@ class Solution:
             second.next = tmp1
             first, second = tmp1, tmp2
 
+    # invert a binary tree
     def invertTree(self, root: Optional[TreeNode]) -> Optional[TreeNode]:
         if not root:
             return None
@@ -174,11 +175,13 @@ class Solution:
         self.invertTree(root.right)
         return root
 
+    # return the max depth of a binary tree (longest path from root to a leaf node)
     def maxDepth(self, root: Optional[TreeNode]) -> int:
         if not root:
             return 0
         return 1 + max(self.maxDepth(root.left), self.maxDepth(root.right))
 
+    # diameter is the longest path between any two nodes 
     def diameterOfBinaryTree(self, root: Optional[TreeNode]) -> int:
         self.diameter = 0  # made the variable global for functino access
 
@@ -198,6 +201,7 @@ class Solution:
         dfs(root)
         return self.diameter
 
+    # check if a binary is height balanced (left and right height diff less then one )
     def isBalanced(self, root: Optional[TreeNode]) -> bool:
 
         def dfs(curr):
@@ -214,6 +218,7 @@ class Solution:
 
         return dfs(root)[0]
 
+    # check if the two trees are the same
     def isSameTree(self, p: Optional[TreeNode], q: Optional[TreeNode]) -> bool:
         if not q or not p:
             return not (q or p)
@@ -221,6 +226,7 @@ class Solution:
             return False
         return self.isSameTree(p.left, q.left) and self.isSameTree(p.right, q.right)
 
+    # is this tree a subtree of another tree 
     def isSubtree(self, root: Optional[TreeNode], subRoot: Optional[TreeNode]) -> bool:
 
         def is_same(main, sub):
@@ -236,6 +242,7 @@ class Solution:
             return False
         return self.isSubtree(root.left, subRoot) or self.isSubtree(root.right, subRoot)
 
+    # find the node that is parent of two nodes, and is lowest possible parent 
     def lowestCommonAncestor(
         self, root: TreeNode, p: TreeNode, q: TreeNode
     ) -> TreeNode:
@@ -250,6 +257,7 @@ class Solution:
         else:
             return root
 
+    # convert a tree to a list by doing a level ordre traversal 
     def levelOrder(self, root: Optional[TreeNode]) -> List[List[int]]:
         res = []
         que = deque([root])
