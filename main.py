@@ -688,5 +688,25 @@ class Solution:
                 l +=1
         return res
 
+    # check if a string bracket has a matching pair,ex: [hi] is fine, but [(]) is not
+    def isValid(self, s: str) -> bool:
+        stack = []
+        brak = {']': '[', ')': '(', '}': '{'}
+
+        for c in s: 
+            if c not in brak: 
+                stack.append(c)
+                continue
+            if stack and stack[-1] == brak[c]: 
+                stack.pop()
+            else:
+                return False
+            
+        return len(stack) == 0 
 
 
+if __name__ == "__main__": 
+    s = Solution()
+    stack = [0,2,1] 
+    print(min(stack))
+    
