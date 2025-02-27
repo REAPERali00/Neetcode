@@ -705,8 +705,59 @@ class Solution:
         return len(stack) == 0 
 
 
+
+    # calculate the reverse polish notation (["1","2","+","3","*","4","-"] -> outputs 5)
+    # like so: ((1 + 2) * 3) - 4 = 5
+    def evalRPN(self, tokens: List[str]) -> int:
+        stack = []
+        for s in tokens: 
+            match s:
+                case "+":
+                    stack.append(stack.pop()+stack.pop())
+                    pass
+                case "-":
+                    a, b = stack.pop(), stack.pop()
+                    stack.append(b - a)                
+                    pass
+                case "*":
+                    stack.append(stack.pop()*stack.pop())
+                    pass
+                case "/":
+                    a, b = stack.pop(), stack.pop() # in this case, the order of division has to be reverse
+                    stack.append(int(float(b)/a))
+                    pass
+                case _: 
+                    stack.append(int(s))
+        return stack[0]
+
+    # given n, generate a list of all possible valid paranthesis with n number of paranthesis
+    # example: Input: n = 3
+    # output: ["((()))","(()())","(())()","()(())","()()()"]
+    def generateParenthesis(self, n: int) -> List[str]:
+        stack = []
+        res = []
+
+        def backtrack(openN, closedN):
+            if openN == closedN == n: # this means we have reached the limit of possible brackets! 
+                res.append("".join(stack))
+                return
+
+            if openN < n: # check if we can add an openning bracket
+                stack.append("(")
+                backtrack(openN + 1, closedN)
+                stack.pop()
+
+            if closedN < openN: # we can only add a closing bracket if we already have an opening one!
+                stack.append(")")
+                backtrack(openN, closedN + 1)
+                stack.pop()
+
+        backtrack(0, 0)
+        return res
+
+
 if __name__ == "__main__": 
     s = Solution()
-    stack = [0,2,1] 
-    print(min(stack))
+    tokens = ["1","2","+","3","*","4","-"]
+    print(s.evalRPN(tokens))
     
