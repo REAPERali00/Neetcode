@@ -754,10 +754,28 @@ class Solution:
 
         backtrack(0, 0)
         return res
+    
+    # you are givent temperatures = [30,38,30,36,35,40,28], for each element find the number of days 
+    # till temprature increases, 0 otherwise. in this case, the answer is [1,4,1,2,1,0,0]
+    def dailyTemperatures(self, temperatures: List[int]) -> List[int]:
+        res = [0] * len(temperatures)
+        stack = [] # store temp, index
+
+        for i, temp in enumerate( temperatures ): 
+            while stack and stack[-1][0] < temp: 
+                t, ind = stack.pop() 
+                res[ind] = i - ind
+
+            stack.append([temp, i])
+        return res
+
+
+
 
 
 if __name__ == "__main__": 
     s = Solution()
     tokens = ["1","2","+","3","*","4","-"]
-    print(s.evalRPN(tokens))
+    temps = [30,38,30,36,35,40,28]
+    print(s.dailyTemperatures(temps))
     
