@@ -769,13 +769,34 @@ class Solution:
             stack.append([temp, i])
         return res
 
+    # given an array of prices for coin, return max profit. ex: prices = [10,1,5,6,7,1], output: 6
+    def maxProfit(self, prices: List[int]) -> int:
+        res = 0
+        # for i in range(len(prices)): 
+        #     res = max(res, max(prices[i:])-prices[i])
 
+        l, r= 0,1
+        while r < len(prices): 
+            if prices[l] < prices[r]: res = max(res, prices[r]-prices[l])
+            else: l =r
+            r +=1
+        return res
 
+    # find the longest substring that doesn't have dupplicates, ex: s = "zxyzxyz", output: 3(xyz)
+    def lengthOfLongestSubstring(self, s: str) -> int:
+        l, res = 0, 0
+        curr = set()
+        for r in range(len(s)): 
+            while s[r] in curr: 
+                curr.remove(s[l])
+                l+=1
+            curr.add(s[r])
+            res = max(res, r-l+1)
+        return res
 
 
 if __name__ == "__main__": 
     s = Solution()
-    tokens = ["1","2","+","3","*","4","-"]
-    temps = [30,38,30,36,35,40,28]
-    print(s.dailyTemperatures(temps))
+
+    print(s.lengthOfLongestSubstring(" "))
     
