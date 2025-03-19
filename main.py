@@ -1,4 +1,4 @@
-import collections
+import collections 
 from typing import List, Optional
 from collections import Counter, defaultdict, deque
 import heapq
@@ -794,9 +794,23 @@ class Solution:
             res = max(res, r-l+1)
         return res
 
+    # given a string and an integer, return longest substring that contains duplicates if we can replace k characters, 
+    # ex: s = "XYYX", k = 2 return 4
+    def characterReplacement(self, s: str, k: int) -> int:
+        l, res = 0, 0 
+        freq = {}
+        for r in range(len(s)): 
+            freq[s[r]] = 1 + freq.get(s[r], 0) # get s[r] key value if it exists, if not return 0
+            while freq and ((r-l+1) - max(freq.values())) >k: 
+                freq[s[l]] -=1
+                l+=1
+
+            res = max(res, r-l+1)
+        return res
+
 
 if __name__ == "__main__": 
     s = Solution()
-
-    print(s.lengthOfLongestSubstring(" "))
+ 
+    print(s.characterReplacement("XXYY",2))
     
