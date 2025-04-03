@@ -808,9 +808,21 @@ class Solution:
             res = max(res, r-l+1)
         return res
 
+    # return True if a permutation of s1 is in S2. Ex: Input: s1 = "abc", s2 = "lecabee" Output: true
+    def checkInclusion(self, s1: str, s2: str) -> bool:
+        s1_ln, s2_ln = len(s1), len(s2)
+        s1 = "".join(sorted(s1))
+
+        if s1_ln > s2_ln: return False
+
+        for i in range(s2_ln): 
+            if s1 == "".join(sorted(s2[i:s1_ln+i])): 
+                return True
+        return False
+
 
 if __name__ == "__main__": 
     s = Solution()
  
-    print(s.characterReplacement("XXYY",2))
+    print(s.checkInclusion("abc","lecabee"))
     
