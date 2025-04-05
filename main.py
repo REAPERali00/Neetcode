@@ -821,8 +821,41 @@ class Solution:
         return False
 
 
+    # NOTE: hard problem
+    # find the shortest substring in s that contains all characters in t (dupli is 👌)
+    # ex: Input: s = "OUZODYXAZV", t = "XYZ" |  Output: "YXAZ"
+    def minWindow(self, s: str, t: str) -> str:
+        if t == "": return ""
+
+        countT, window = {}, {} #Get ferq of current dynamic window and t string
+        res, res_len = [-1, -1], float("infinity") #keeping tags on the indexes of beg and end of res
+
+        for c in t:  #get freq 
+            countT[c] = 1+ countT.get(c, 0) # get count, if no key return 0 (second parameter)
+
+        have, need = 0, len(countT) # we are going to check if character count req is reached for each countT to window 
+        l = 0
+        for r in range(len(s)): 
+            c = s[r]
+            window[c] = 1 + window.get(c, 0) # increment freq for char in window
+
+            if c in countT and window[c] == countT[c]:  # if req are satisfied for countT, increment have. (must ==, if greater req is already met)
+                have +=1 
+
+            while have == need: #if all met, now we optimize. remove from left till count comparision does not meet req 
+                if (r - l + 1) < res_len:  #update res if smaller count 
+                    res = [l, r]
+                    res_len = (r-l+1)
+                window[s[l]] -=1 # we start removing from left of window
+                if s[l] in countT and window[s[l]] < countT[s[l]]: #if the char removed is in t, and req no longer meets, update have
+                    have -=1
+                l +=1 # update left side
+
+        l,r = res
+        return s[l:r+1] if res_len != "infinity" else "" # return final results if len of res is updated
+
 if __name__ == "__main__": 
     s = Solution()
  
-    print(s.checkInclusion("abc","lecabee"))
+    print(s.minWindow("OUZODYXAZV","XYZ"))
     
