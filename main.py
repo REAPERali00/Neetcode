@@ -854,8 +854,33 @@ class Solution:
         l,r = res
         return s[l:r+1] if res_len != "infinity" else "" # return final results if len of res is updated
 
+    # given each car is in position i and has speed i, how many fleets (group of car) 
+    # do we have if cars that reach each other must maintain the same speed? 
+    # ex: Input: target = 10, position = [4,1,0,7], speed = [2,2,1,1] |  Output: 3
+    def carFleet(self, target: int, position: List[int], speed: List[int]) -> int:
+        timeStack = []
+        time_map = {}
+
+        for i in range(len(speed)): 
+            time_map[position[i]] = (target-position[i])/ speed[i]
+
+        fleetCount = 0
+        for pos in sorted(position, reverse=True): 
+            time = time_map[pos]
+            if not timeStack:
+                timeStack.append(time)
+                continue
+
+            if time > timeStack[fleetCount]: 
+                timeStack.append(time)
+                fleetCount+=1
+        return fleetCount+1
+
+
+
+
 if __name__ == "__main__": 
     s = Solution()
  
-    print(s.minWindow("OUZODYXAZV","XYZ"))
+    print(s.carFleet(target = 10, position = [4,1,0,7], speed = [2,2,1,1]))
     
