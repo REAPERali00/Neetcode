@@ -876,11 +876,54 @@ class Solution:
                 fleetCount+=1
         return fleetCount+1
 
+    #find number index, basic search. 
+    #ex:Input: nums = [-1,0,2,4,6,8], target = 4 Output: 3
+    def search(self, nums: List[int], target: int) -> int:
+        start, end = 0, len(nums)-1
+
+        while start <= end: 
+            mid = (start +end)//2
+            cur = nums[mid]
+            if cur == target: 
+                return mid 
+            elif cur < target: 
+                start = mid+1
+            else: 
+                end = mid-1
+
+        return -1
+
+    # do binary search for a 2d matrix,
+    # Input: matrix = [[1,2,4,8],[10,11,12,13],[14,20,30,40]], target = 15 Output: false
+    def searchMatrix(self, matrix: List[List[int]], target: int) -> bool:
+        rowStart, colStart = 0,0
+        rowEnd, colEnd = len(matrix)-1,len(matrix[0])-1 
+        while rowStart <= rowEnd and colStart <= colEnd: 
+            rowMid = (rowStart+rowEnd)//2
+            colMid = (colStart+colEnd)//2
+            cur = matrix[rowMid][colMid]
+
+            if target > matrix[rowMid][colEnd]: 
+                rowStart = rowMid+1
+            elif target < matrix[rowMid][colStart]: 
+                rowEnd = rowMid-1
+            else:
+                if cur == target: 
+                    return True 
+                elif cur < target: 
+                    colStart = colMid+1
+                else:
+                    colEnd = colMid-1
+
+        return False
+        
 
 
 
 if __name__ == "__main__": 
     s = Solution()
  
-    print(s.carFleet(target = 10, position = [4,1,0,7], speed = [2,2,1,1]))
+    print(s.searchMatrix(matrix = [[1,2,4,8],[10,11,12,13],[14,20,30,40]], target = 15))
+    print(s.searchMatrix( matrix = [[1,2,4,8],[10,11,12,13],[14,20,30,40]], target = 10))
+
     
