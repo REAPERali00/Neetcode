@@ -935,9 +935,19 @@ class Solution:
                 l = mid+1
         
         return rate 
+    # if all elements are unique, and we have rotated a sorted array n times find smallest value 
+    # EX: Input: nums = [3,4,5,6,1,2] Output: 1
+    def findMin(self, nums: List[int]) -> int:
+        l, r = 0, len(nums)-1
+        while l <r: 
+            mid = (l+r)//2
+            if nums[mid] < nums[r]: 
+                r = mid 
+            else: 
+                l = mid+1
+        return nums[l]
 
-
-
+                
 if __name__ == "__main__": 
     s = Solution()
  
