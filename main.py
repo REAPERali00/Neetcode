@@ -917,13 +917,73 @@ class Solution:
 
         return False
         
+    # we have n bananas in each i pile, if we are given an h hour, what is min rate 
+    # to eat banana. pick big num, you can't switch to new pile unless hour is over. 
+    # ex: Input: piles = [1,4,3,2], h = 9 Output: 2
+    def minEatingSpeed(self, piles: List[int], h: int) -> int:
+        l, r = 1, max(piles)
+        rate = r
+        while l <=r: 
+            mid = (l+r)//2
+            tot = 0
+            for n in piles: 
+                tot += math.ceil(float(n)/mid)
+            if tot <= h: 
+                rate = mid
+                r = mid -1
+            else: 
+                l = mid+1
+        
+        return rate 
+    # if all elements are unique, and we have rotated a sorted array n times find smallest value 
+    # EX: Input: nums = [3,4,5,6,1,2] Output: 1
+    def findMin(self, nums: List[int]) -> int:
+        l, r = 0, len(nums)-1
+        while l <r: 
+            mid = (l+r)//2
+            if nums[mid] < nums[r]: 
+                r = mid 
+            else: 
+                l = mid+1
+        return nums[l]
 
 
+    # a sorted array is rottated n times, find a number in log time. if not found, -1 
+    # Input: nums = [3,4,5,6,1,2], target = 1 Output: 4
+    def search(self, nums: List[int], target: int) -> int:
+        l, r = 0, len(nums) - 1
 
+        while l < r:
+            m = (l + r) // 2
+            if nums[m] > nums[r]:
+                l = m + 1
+            else:
+                r = m
+
+        pivot = l
+        
+        def binary_search(left: int, right: int) -> int:
+            while left <= right:
+                mid = (left + right) // 2
+                if nums[mid] == target:
+                    return mid
+                elif nums[mid] < target:
+                    left = mid + 1
+                else:
+                    right = mid - 1
+            return -1
+
+        result = binary_search(0, pivot - 1)
+        if result != -1:
+            return result
+        
+        return binary_search(pivot, len(nums) - 1)
+            
+
+                
 if __name__ == "__main__": 
     s = Solution()
  
-    print(s.searchMatrix(matrix = [[1,2,4,8],[10,11,12,13],[14,20,30,40]], target = 15))
-    print(s.searchMatrix( matrix = [[1,2,4,8],[10,11,12,13],[14,20,30,40]], target = 10))
+    print(s.minEatingSpeed(piles=[3,6,7,11], h=8))
 
     
