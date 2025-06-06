@@ -978,12 +978,24 @@ class Solution:
             return result
         
         return binary_search(pivot, len(nums) - 1)
+
+
+    def myAtoi(self, s:str) -> int: 
+        ans : int = 0
+        is_neg = False
+        for l in s: 
+            if "0" <= l<= "9": 
+                ans = ans * 10 + int(l)
+            elif l == "-": 
+                is_neg = True
+            else: break
+        return ans * -1   if is_neg else ans
             
 
                 
 if __name__ == "__main__": 
     s = Solution()
  
-    print(s.minEatingSpeed(piles=[3,6,7,11], h=8))
+    print(s.myAtoi("-1203"))
 
     
